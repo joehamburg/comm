@@ -1,0 +1,6 @@
+syntax = "proto2";
+
+message CharacterContainer {
+  optional string character_type = 1;
+  optional bytes character_data = 2;
+}
