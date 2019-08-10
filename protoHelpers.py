@@ -8,3 +8,7 @@ def encode_varint(value):
 
 def decode_varint(data):
     return _DecodeVarint(data, 0)[0]
+
+
+def import_mod(mod, package, class_name):
+    return getattr(import_module(mod, package), class_name)

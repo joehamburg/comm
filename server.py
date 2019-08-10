@@ -1,19 +1,35 @@
 import socket
 import SocketServer
-from protoHelpers import decode_varint
-from protobuf import hunter_pb2 as hunterxhunter 
-from protobuf import CharacterContainer_pb2 as character_container
+from importlib import import_module
+from protoHelpers import *
 
+# add new protobuf constuctors here
+proto_constructors = {
+    'module': 'protbuf'
+    'CHARACTER': { 
+        'class': 'CharacterContainer',
+        'package': 'CharacterContainer_pb2', 
+        'types': {
+            'HUNTER': {
+                'class':  'HunterxHunter', 
+                'package': 'hunter_pb2', 
+            }
+        }
+    }
+}
 
 class tcp(SocketServer.BaseRequestHandler):
-    def deserialize_data(self, data):
-        character = character_container.CharacterContainer()
-        character.ParseFromString(data)
 
-        hunter = hunterxhunter.HunterxHunter()
-        hunter.ParseFromString(character.character_data)
+    def deserialize(self, data, protoContainerType):
+        proto_dict = proto_constructors[protoContainerType]
+        proto_con =  import_mod('protobuf', proto_dict['package'], proto_dict['class'])()
+        if( proto_con.ParseFromString(data) ):
+            proto = import_mod('protobuf', proto_dict['types'][proto_con.type]['package'], proto_dict['types'][proto_con.type]['class'])()
+            proto.ParseFromString(proto_con.data)
+        else: 
+            print("monkaS i dont know what this proto container is")
 
-        return hunter
+        return  proto
 
     def handle(self):
         data = b''
@@ -25,7 +41,7 @@ class tcp(SocketServer.BaseRequestHandler):
             except IndexError:
                 pass
         data = self.request.recv(size)
-        character = self.deserialize_data(data)
+        character = self.deserialize(data, 'CHARACTER')
         print(character)
 
 
@@ -37,8 +53,3 @@ def run_server(host, port, type):
         "-_(-_-)_-"
 
 run_server('localhost', 40001, tcp)
-        
-
-
-
-        

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto2',
   serialized_options=None,
-  serialized_pb=_b('\n\x18\x43haracterContainer.proto\"D\n\x12\x43haracterContainer\x12\x16\n\x0e\x63haracter_type\x18\x01 \x01(\t\x12\x16\n\x0e\x63haracter_data\x18\x02 \x01(\x0c')
+  serialized_pb=_b('\n\x18\x43haracterContainer.proto\"0\n\x12\x43haracterContainer\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c')
 )
 
 
@@ -33,14 +33,14 @@ _CHARACTERCONTAINER = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='character_type', full_name='CharacterContainer.character_type', index=0,
+      name='type', full_name='CharacterContainer.type', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='character_data', full_name='CharacterContainer.character_data', index=1,
+      name='data', full_name='CharacterContainer.data', index=1,
       number=2, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -59,7 +59,7 @@ _CHARACTERCONTAINER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=28,
-  serialized_end=96,
+  serialized_end=76,
 )
 
 DESCRIPTOR.message_types_by_name['CharacterContainer'] = _CHARACTERCONTAINER
