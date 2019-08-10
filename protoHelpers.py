@@ -1,5 +1,6 @@
 from google.protobuf.internal.encoder import _VarintEncoder
 from google.protobuf.internal.decoder import _DecodeVarint
+from importlib import import_module
 
 def encode_varint(value):
     data = []

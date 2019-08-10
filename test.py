@@ -1,6 +1,8 @@
 from enums import *
 from client import tcp_client_send
 from Creators.protoCreator import *
+from Creators.characterCreator import *
+from protobuf import CharacterContainer_pb2 as c_con, hunter_pb2 as h
 
 def make_hunter():
     hunter = h.HunterxHunter();
@@ -10,6 +12,10 @@ def make_hunter():
 
     return hunter
 
-hunter = ProtoCreator.factory(make_hunter(), Container.CHARACTER, Container.CHARACTER.value.HUNTER)
+def factory(data, container_type = Container.UNKNOWN, proto_type = Container.UNKNOWN):
+    if container_type == Container.CHARACTER : return Character(proto_type, data)
+    assert 0, "Bad ProtoCreator creation: " + container_type.name
+
+hunter = factory(make_hunter(), Container.CHARACTER, Container.CHARACTER.value.HUNTER)
 tcp_client_send("localhost", 40001, hunter)
 

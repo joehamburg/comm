@@ -1,11 +1,9 @@
 import socket
 import SocketServer
-from importlib import import_module
 from protoHelpers import *
 
 # add new protobuf constuctors here
 proto_constructors = {
-    'module': 'protbuf'
     'CHARACTER': { 
         'class': 'CharacterContainer',
         'package': 'CharacterContainer_pb2', 
