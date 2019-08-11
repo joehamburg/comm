@@ -1,8 +1,8 @@
-from enums import *
+import enums
 from protobuf import CharacterContainer_pb2 as c_con, hunter_pb2 as h
 from protoCreator import ProtoCreator
 
-class Character(ProtoCreator):
+class CharacterCreator(ProtoCreator):
     def serialize(self):
         self.data = self.data.SerializeToString()
 

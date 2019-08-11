@@ -1,6 +1,6 @@
 import socket
 import SocketServer
-from protoHelpers import *
+from protoHelpers import decode_varint, import_mod
 
 # add new protobuf constuctors here
 proto_constructors = {
