@@ -7,4 +7,3 @@ class ProtoCreator:
     
     def serialize(self):
         raise ValueError('Need to implement ProtoCreator.serialize method.')
-        pass

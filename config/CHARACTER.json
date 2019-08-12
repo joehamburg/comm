@@ -1,0 +1,19 @@
+{
+  "container": "CHARACTER",
+  "class": "CharacterContainer",
+  "package": "CharacterContainer_pb2", 
+  "types": {
+    "HUNTER": {
+      "class":  "HunterxHunter", 
+      "package": "hunter_pb2"
+    },
+    "NINJA": {
+      "class":  "Naruto", 
+      "package": "ninja_pb2"
+    },
+    "PIRATE": {
+      "class":  "OnePiece", 
+      "package": "pirate_pb2"
+    }
+  }
+}

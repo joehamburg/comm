@@ -1,28 +1,23 @@
 import socket
 import SocketServer
-from protoHelpers import decode_varint, import_mod
+import json
+from enums import Container
+from helpers import decode_varint, import_mod
 
-# add new protobuf constuctors here
-proto_constructors = {
-    'CHARACTER': { 
-        'class': 'CharacterContainer',
-        'package': 'CharacterContainer_pb2', 
-        'types': {
-            'HUNTER': {
-                'class':  'HunterxHunter', 
-                'package': 'hunter_pb2', 
-            }
-        }
-    }
-}
 
 class tcp(SocketServer.BaseRequestHandler):
+    def deserialize(self, data):
+        #parse json with all the constructors for that container type
+        with open('config/' + self.server.protoContainerType.name + '.json', 'r') as conf_file:
+            json_file=conf_file.read()
+        proto_dict = json.loads(json_file)
 
-    def deserialize(self, data, protoContainerType):
-        proto_dict = proto_constructors[protoContainerType]
-        proto_con =  import_mod('protobuf', proto_dict['package'], proto_dict['class'])()
+        #use json values to dnyamically import & make some proto objects
+        proto_con =  import_mod('protobuf', proto_dict['package'], 
+                                proto_dict['class'])()
         if( proto_con.ParseFromString(data) ):
-            proto = import_mod('protobuf', proto_dict['types'][proto_con.type]['package'], proto_dict['types'][proto_con.type]['class'])()
+            proto = import_mod('protobuf', proto_dict['types'][proto_con.type]['package'], 
+                                proto_dict['types'][proto_con.type]['class'])()
             proto.ParseFromString(proto_con.data)
         else: 
             print("monkaS i dont know what this proto container is")
@@ -30,24 +25,24 @@ class tcp(SocketServer.BaseRequestHandler):
         return  proto
 
     def handle(self):
-        data = b''
         while True:
             try:
-                data += self.request.recv(1)
+                data = self.request.recv(1)
                 size = decode_varint(data)
                 break
             except IndexError:
                 pass
         data = self.request.recv(size)
-        character = self.deserialize(data, 'CHARACTER')
+        character = self.deserialize(data)
         print(character)
 
 
-def run_server(host, port, type):
-    if type == tcp: 
-        server = SocketServer.TCPServer((host, port), type)
+def run_server(host, port, serverType, containerType):
+    if serverType == tcp: 
+        server = SocketServer.TCPServer((host, port), serverType)
+        server.protoContainerType = containerType
         server.serve_forever()
     else:
         "-_(-_-)_-"
 
-run_server('localhost', 40001, tcp)
+run_server('localhost', 40001, tcp, Container.CHARACTER)

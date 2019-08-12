@@ -2,6 +2,6 @@ syntax = "proto2";
 
 message HunterxHunter {
   optional string name = 1;
-  optional int32 id = 2;
-  optional string email = 3;
+  optional string nen = 2;
+  optional bool hunter_license = 3;
 }

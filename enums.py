@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class _CHARACTER(Enum):
     HUNTER = 1
     PIRATE = 2

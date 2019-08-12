@@ -1,6 +1,6 @@
 import socket
 import sys
-from protoHelpers import encode_varint
+from helpers import encode_varint
 
 
 def tcp_client_send(host, port, proto):

@@ -1,21 +1,38 @@
 from enums import Container
 from client import tcp_client_send
-from Creators import CharacterCreator
+from objectFactory import factory
+from protobuf import hunter_pb2 as h, ninja_pb2 as n, pirate_pb2 as p
 
-from protobuf import CharacterContainer_pb2 as c_con, hunter_pb2 as h
-
+#make a sample hunter for testing
 def make_hunter():
     hunter = h.HunterxHunter()
     hunter.name = "Gon Freecss"
-    hunter.id = 23
-    hunter.email = "gon.freecss@gmail.hunter.com"
+    hunter.nen = "Enhancer"
+    hunter.hunter_license = True
 
     return hunter
 
-def factory(data, container_type = Container.UNKNOWN, proto_type = Container.UNKNOWN):
-    if container_type == Container.CHARACTER : return CharacterCreator(proto_type, data)
-    assert 0, "Bad ProtoCreator creation: " + container_type.name
+def make_ninja():
+    ninja = n.Naruto()
+    ninja.name = "Naruto Uzumaki"
+    ninja.move = "Shadow clone jutsu"
+    ninja.village = "hidden leaf"
+
+    return ninja
+
+def make_pirate():
+    pirate = p.OnePiece()
+    pirate.name = "Monkey D Luffy"
+    pirate.position = "Captain"
+    pirate.gumgumfruit = True
+
+    return pirate
 
 hunter = factory(make_hunter(), Container.CHARACTER, Container.CHARACTER.value.HUNTER)
-tcp_client_send("localhost", 40001, hunter)
+ninja = factory(make_ninja(), Container.CHARACTER, Container.CHARACTER.value.NINJA)
+pirate = factory(make_pirate(), Container.CHARACTER, Container.CHARACTER.value.PIRATE)
 
+characters = [hunter, ninja, pirate]
+
+for character in characters: 
+    tcp_client_send("localhost", 40001, character)
